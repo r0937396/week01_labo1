@@ -3,7 +3,8 @@ package demo;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 @Entity
 @Table(name = "users")
 
