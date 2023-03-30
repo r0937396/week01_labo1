@@ -2,16 +2,28 @@ package demo;
 
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+@Entity
+@Table(name = "users")
+
 
 public class User {
-
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Id
+    public long id;
+    
+    
     private String name;
     private int age;
+    @Transient
     private List<Integer> membershipYears = new ArrayList<Integer>();
     private String email;
     private String password;
     public String unvalidpswrd = "    ";
     public CharSequence Email;
+
+    public User (){}
 
     public User(String name, int age, String  email, String password) {
         this.name = name;
