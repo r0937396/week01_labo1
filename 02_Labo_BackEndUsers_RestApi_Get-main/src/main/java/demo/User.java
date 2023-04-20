@@ -22,8 +22,7 @@ public class User {
     private String email;
     private String password;
     public String unvalidpswrd = "    ";
-    public CharSequence Email;
-
+   
     public User (){}
 
     public User(String name, int age, String  email, String password) {

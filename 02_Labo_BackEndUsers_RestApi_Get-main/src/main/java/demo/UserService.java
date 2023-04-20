@@ -2,12 +2,12 @@ package demo;
 
 import java.util.ArrayList;
 import java.util.List;
-import demo.User;
+// import demo.User;
+// import jakarta.validation.constraints.Null;
 
-import org.hibernate.Remove;
+// import org.hibernate.Remove;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
 
 @Service
 public class UserService {
@@ -34,18 +34,14 @@ public class UserService {
     public List<User> getUsersWithAgeOlderThan(int age) {
         return userRepository.findUsersByAgeAfter(age);
     }
-    
 
     public User getOldestUser() {
-        User oldest = null;
-        if (userRepository.findAll().size()>0) {
-            oldest = userRepository.findAll().get(0);
-            for (User user : userRepository.findAll()) {
-                if (user.getAge() > oldest.getAge())
-                    oldest = user;
-            }
+        try {
+            return userRepository.findAllByOrderByAgeDesc().get(0);
+        } catch (NullPointerException e) {
+            return null;
         }
-        return oldest;
+
     }
 
     public User getUserWithName(String name) {
@@ -53,26 +49,28 @@ public class UserService {
     }
 
     public boolean addUser(User user) {
-        if(getUserWithEmail(user.getEmail()) != null){
+        if (getUserWithEmail(user.getEmail()) != null) {
             return false;
         }
         userRepository.save(user);
         return true;
-    } 
-    
-    public User getUserWithEmail(String mail){
-        return userRepository.findUserByEmail(mail);
-    
     }
-    public User removeUser(String email){
+
+    public User getUserWithEmail(String mail) {
+        return userRepository.findUserByEmail(mail);
+
+    }
+
+    public User removeUser(String email) {
         User removeUser = getUserWithEmail(email);
-        if (removeUser != null){
-            userRepository.findAll().remove(removeUser);
+        if (removeUser != null) {
+            userRepository.delete(removeUser);;
             return removeUser;
         }
         return null;
     }
-    public List<User> getUserWithEmailAndAge(int age, String email){
+
+    public List<User> getUserWithEmailAndAge(int age, String email) {
         List<User> users = new ArrayList<>();
         for (User usermail : userRepository.findAll()) {
             if (usermail.getEmail().equals(email) && usermail.getAge() == age) {
@@ -80,8 +78,9 @@ public class UserService {
             }
         }
         return users;
-    } 
-    public List<User> getUserWithagebetween(int age_min, int age_max){
+    }
+
+    public List<User> getUserWithagebetween(int age_min, int age_max) {
         List<User> userse = new ArrayList<>();
         for (User userage : userRepository.findAll()) {
             if (userage.getAge() >= age_min && userage.getAge() <= age_max) {
@@ -89,9 +88,6 @@ public class UserService {
             }
         }
         return userse;
-    } 
+    }
 
-   
 }
-    
-

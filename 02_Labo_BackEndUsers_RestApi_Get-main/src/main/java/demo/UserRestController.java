@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,23 +42,31 @@ public class UserRestController {
     }
 
     @GetMapping("/adults")
-    public List<User> searchUserOlderThen17(){
+    public List<User> searchUserOlderThen17() {
         return userService.getUsersWithAgeOlderThan(17);
     }
+
     @GetMapping("/search/email/{email}")
-    public User getuserwithemail(@PathVariable("email") String email){
+    public User getuserwithemail(@PathVariable("email") String email) {
         return userService.getUserWithEmail(email);
     }
+
     @GetMapping("/search")
-    public List<User> getuserswitheemailandage(@RequestParam("age")int age, @RequestParam("email")String email){
+    public List<User> getuserswitheemailandage(@RequestParam("age") int age, @RequestParam("email") String email) {
         return userService.getUserWithEmailAndAge(age, email);
     }
+
     @GetMapping("/search/age/{min}/{max}")
-    public List<User> getUsersWithAgeBetween(@PathVariable("min")int age_mi, @PathVariable("max")int age_mx){
+    public List<User> getUsersWithAgeBetween(@PathVariable("min") int age_mi, @PathVariable("max") int age_mx) {
         return userService.getUserWithagebetween(age_mi, age_mx);
     }
+
     @PostMapping
     public boolean addUser(@RequestBody User user) {
-        return userService.addUser (user);
-}
+        return userService.addUser(user);
+    }
+    @DeleteMapping("/{email}")
+    public User DelAndReturnUser(@PathVariable String email){
+        return userService.removeUser(email);
+    }
 }
